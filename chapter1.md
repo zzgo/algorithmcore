@@ -74,10 +74,9 @@ public class Ch01 {
     }
 
     public static void main(String[] args) {
-//        输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
-//        输出：7 -> 0 -> 8
-//        原因：342 + 465 = 807
-
+        //输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+        //输出：7 -> 0 -> 8
+        //原因：342 + 465 = 807
         ListNode left = new ListNode(2, null);
         ListNode left_1 = new ListNode(4, null);
         left.next = left_1;
@@ -105,9 +104,7 @@ public class Ch01 {
             System.out.print(node.val + " -> ");
             node = node.next;
         }
-
     }
-
 }
 ```
 
@@ -157,4 +154,41 @@ public static void print(ListNode node) {
 ```
 
 大数相加也可以采用该链表的形式，但是长度过长，会出现java.lang.StackOverflowError
+
+大数相加优化，采用数组进行存储
+
+```java
+public static String bigNumberPlus(String a, String b) {
+    int lenA = a.length();
+    int lenB = b.length();
+    //长度不一致进行0补齐操作
+    if (lenA > lenB) {
+        b = StringUtils.leftPad(b, lenA, "0");
+    } else {
+        a = StringUtils.leftPad(a, lenB, "0");
+    }
+    //保存数据
+    int[] arrC = new int[a.length() + 1];
+    for (int i = a.length() - 1; i >= 0; i--) {
+        int ai = Integer.parseInt(a.charAt(i) + "");
+        int bi = Integer.parseInt(b.charAt(i) + "");
+        //获取进位值
+        int ci = arrC[i + 1];
+        //将当前计算的值加进位值
+        int t = ai + bi + ci;
+        //计算余数
+        arrC[i + 1] = t % 10;
+        //计算进位值
+        arrC[i] = t / 10;
+    }
+    StringBuffer res = new StringBuffer();
+    for (int i = 0; i < arrC.length; i++) {
+        if (i == 0 && arrC[i] == 0) continue;
+        res.append(arrC[i]);
+    }
+    return res.toString();
+}
+```
+
+
 
