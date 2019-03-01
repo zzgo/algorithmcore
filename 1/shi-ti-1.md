@@ -247,5 +247,38 @@ public static String findLongHuiWen(String s) {
     }
 ```
 
+```java
+static int max = 0, start = 0;
+
+    public static String findLongHuiWen(String s) {
+        int len = s.length();
+        if (s == null || len == 0) return "";
+        for (int i = 0; i < len; i++) {
+            maxLen(s, i);
+        }
+        return s.substring(start, start + max);
+    }
+
+    public static void maxLen(String s, int i) {
+        int low = i;
+        int high = i;
+        while (high < s.length() - 1 && s.charAt(high) == s.charAt(high + 1))
+            high++;
+        while (low >= 0 && high < s.length() && s.charAt(low) == s.charAt(high)) {
+            low--;
+            high++;
+        }
+        if (high - low - 1 > max) {
+            max = high - low - 1;
+            start = low + 1;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        System.out.println(findLongHuiWen("ababc"));
+    }
+```
+
 
 
