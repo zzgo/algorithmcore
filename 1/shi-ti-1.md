@@ -218,7 +218,7 @@ public static String findLongHuiWen(String s) {
         if (s == null || len == 0) return "";
         int maxLen = 0;//记录最大长度
         int start = 0;//记录起点位置
-        for (int i = 0; i < len - 1; i++) {
+        for (int i = 0; i < len; i++) {
             //1、截取两个字符
             int currentLen1 = maxLen(s, i, i);
             //2、截取三个字符
