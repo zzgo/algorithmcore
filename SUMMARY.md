@@ -5,6 +5,7 @@
   * [算法1](chapter1.md)
   * [腾讯试题](1.md)
     * [试题1](1/shi-ti-1.md)
+    * [试题2](1/shi-ti-2.md)
 * [Java常见算法](javachang-jian-suan-fa.md)
   * [快速排序](javachang-jian-suan-fa/kuai-su-pai-xu.md)
   * [插入排序](javachang-jian-suan-fa/cha-ru-pai-xu.md)
