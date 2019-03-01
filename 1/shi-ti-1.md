@@ -124,5 +124,128 @@ public class MargeSort {
     }
 ```
 
+### 2.最长回文数
+
+给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
+
+**示例 1：**
+
+```java
+输入: "babad"
+输出: "bab"
+注意: "aba" 也是一个有效答案。
+```
+
+**示例 2：**
+
+```java
+输入: "cbbd"
+输出: "bb"
+```
+
+解题思路1：
+
+最小回文字符串只有两个字情况，不包含单个字符，要么是aa，要么是aba，于是第一步找到这样的字符串，然后利用左边left指针--与后边right++指针进行比对，相同表示是回文，不同则结束比较，**以下是不优雅编码**
+
+```java
+public static String findLongHuiWen(String s) {
+        int len = s.length();
+        if (s == null || len == 0) return "";
+        int maxLen = 0;//记录最大长度
+        int start = 0;//记录起点位置
+        for (int i = 0; i < len; i++) {
+            //1、截取两个字符
+            if (i + 2 > len) break;
+            String str = s.substring(i, i + 2);
+            if (str.charAt(0) == str.charAt(1)) {
+                int currentLen = 2;//当前最长长度为2
+                int left = i;
+                int right = i + 1;//这里是+1因为截取字符串i+2只能截取的i+1
+                while (left > 0 && right < len - 1) {
+                    left--;
+                    right++;
+                    if (s.charAt(left) == s.charAt(right)) {
+                        currentLen = currentLen + 2;//相同回文字符串长度加2
+                    } else {
+                        left++;
+                        break;
+                    }
+                }
+                if (maxLen < currentLen) {
+                    maxLen = currentLen;
+                    start = left;
+                }
+            }
+
+            //2、截取三个字符
+            if (i + 3 > len) break;
+            str = s.substring(i, i + 3);
+            if (str.charAt(0) == str.charAt(2)) {
+                int currentLen = 3;//当前最长长度为2
+                int left = i;
+                int right = i + 2;//这里是+1因为截取字符串i+2只能截取的i+1
+                while (left > 0 && right < len - 1) {
+                    left--;
+                    right++;
+                    if (s.charAt(left) == s.charAt(right)) {
+                        currentLen = currentLen + 2;//相同回文字符串长度加2
+                    } else {
+                        left++;
+                        break;
+                    }
+                }
+                if (maxLen < currentLen) {
+                    maxLen = currentLen;
+                    start = left;
+                }
+            }
+        }
+        if (maxLen > 0)
+            return s.substring(start, start + maxLen);
+        return s.charAt(0) + "";
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findLongHuiWen("dabababababababababacabababa"));
+    }
+```
+
+代码有一点冗余，进行简单的优化一下
+
+```java
+public static String findLongHuiWen(String s) {
+        int len = s.length();
+        if (s == null || len == 0) return "";
+        int maxLen = 0;//记录最大长度
+        int start = 0;//记录起点位置
+        for (int i = 0; i < len - 1; i++) {
+            //1、截取两个字符
+            int currentLen1 = maxLen(s, i, i);
+            //2、截取三个字符
+            int currentLen2 = maxLen(s, i, i + 1);
+            int max = Math.max(currentLen1, currentLen2);
+            if (maxLen < max) {
+                maxLen = max;
+                start = i - (max - 1) / 2;
+            }
+        }
+        if (maxLen > 0)
+            return s.substring(start, start + maxLen);
+        return s.charAt(0) + "";
+    }
+
+    public static int maxLen(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return right - left - 1;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(findLongHuiWen("babad"));
+    }
+```
+
 
 
