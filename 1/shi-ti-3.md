@@ -44,5 +44,40 @@
 
 解题思路：是负数不是回文数，末尾为0不是回文数（首数字肯定不是0，除0数字外）
 
+```java
+//方法1 取余
+    public static boolean isPalindrome2(int x) {
+        if (x >= 0 && x < 10)
+            return true;
+        if (x < 0 || x % 10 == 0)
+            return false;
+        int ret = 0;
+        int x0 = x;
+        while (x != 0) {
+            ret = ret * 10 + x % 10;
+            x = x / 10;
+        }
+        if (x0 == ret)
+            return true;
+        return false;
+    }
+
+    //方法2 二分
+    public static boolean isPalindrome(int x) {
+        String str = String.valueOf(x);
+        char[] chars = str.toCharArray();
+        int len;
+        if ((len = chars.length) == 1)
+            return true;
+        int low = 0;
+        int high = len - 1;
+        while (chars[low++] == chars[high--]) {
+            if (low > high)
+                return true;
+        }
+        return false;
+    }
+```
+
 
 
