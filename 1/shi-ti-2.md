@@ -77,7 +77,7 @@ public static int reverse(int x) {
 
 ### 2、字符串转换整数 \(atoi\)
 
-请你来实现一个 `atoi` 函数，使其能将字符串转换成整数。
+请你来实现一个 `atoi` 函数，使其能将字符串转换成整数。
 
 首先，该函数会根据需要丢弃无用的开头空格字符，直到寻找到第一个非空格的字符为止。
 
@@ -91,9 +91,9 @@ public static int reverse(int x) {
 
 **说明：**
 
-假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 \[−231,  231 − 1\]。如果数值超过这个范围，qing返回  INT\_MAX \(231 − 1\) 或 INT\_MIN \(−231\) 。
+假设我们的环境只能存储 32 位大小的有符号整数，那么其数值范围为 \[−2^31,  2^31 − 1\]。如果数值超过这个范围，请返回  INT\_MAX \(2^31 − 1\) 或 INT\_MIN \(−2^31\) 。
 
-**示例 1:**
+**示例 1:**
 
 ```
 输入:
@@ -101,10 +101,9 @@ public static int reverse(int x) {
 
 输出:
  42
-
 ```
 
-**示例 2:**
+**示例 2:**
 
 ```
 输入:
@@ -115,25 +114,28 @@ public static int reverse(int x) {
 
 解释: 
 第一个非空白字符为 '-', 它是一个负号。
-     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
-
+     我们尽可能将负号与后面所有连续出现的数字组合起来，最后得到 -42 。
 ```
 
-**示例 3:**
+**示例 3:**
 
-```
 输入:
+
  "4193 with words"
 
+
+
 输出:
+
  4193
 
+
+
 解释:
+
  转换截止于数字 '3' ，因为它的下一个字符不为数字。
 
-```
-
-**示例 4:**
+**示例 4:**
 
 ```
 输入:
@@ -147,7 +149,7 @@ public static int reverse(int x) {
      因此无法执行有效的转换。
 ```
 
-**示例 5:**
+**示例 5:**
 
 ```
 输入:
@@ -158,9 +160,47 @@ public static int reverse(int x) {
 
 解释:
  数字 "-91283472332" 超过 32 位有符号整数范围。 
-     因此返回 INT_MIN (−2
-31
-) 。
+     因此返回 INT_MIN (−2^31) 。
+```
+
+核心思路：数字与char 与乘积之间的运用
+
+```java
+public static int myAtoi(String str) {
+        int len;
+        if (null == str || (len = str.length()) == 0)
+            return 0;
+        int start = 0;
+        for (int i = 0; i < len; i++) {
+            if (str.charAt(i) != ' ') {
+                start = i;
+                break;
+            }
+        }
+        boolean pre = true;
+        if (str.charAt(start) == '+') {
+            start++;
+        } else if (str.charAt(start) == '-') {
+            start++;
+            pre = false;
+        }
+        long ret = 0;
+        boolean isNum = false;
+        for (int i = start; i < len; i++) {
+            if (str.charAt(i) == ' ' || str.charAt(i) < '0' || str.charAt(i) > '9')
+                break;
+            ret = ret * 10 + (str.charAt(i) - '0');
+            if (pre && ret > Integer.MAX_VALUE) {
+                return Integer.MAX_VALUE;
+            }
+            if (!pre && -ret < Integer.MIN_VALUE) {
+                return Integer.MIN_VALUE;
+            }
+        }
+        if (!pre)
+            ret = -ret;
+        return (int) ret;
+}
 ```
 
 
