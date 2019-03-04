@@ -1,5 +1,3 @@
-
-
 ```java
 import static com.zachary.Common.*;
 
