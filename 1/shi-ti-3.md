@@ -79,5 +79,77 @@
     }
 ```
 
+### 2、盛最多水的容器
+
+给定_n_个非负整数_a_1，_a_2，...，_a_n，每个数代表坐标中的一个点 \(_i_, _ai_\) 。在坐标内画_n_条垂直线，垂直线_i_ 的两个端点分别为 \(_i_, _ai_\) 和 \(_i_, 0\)。找出其中的两条线，使得它们与 _x_ 轴共同构成的容器可以容纳最多的水。
+
+**说明：**你不能倾斜容器，且 _n_ 的值至少为 2。
+
+![](/assets/32478hefhesj.png)
+
+**示例:**
+
+```
+输入:
+ [1,8,6,2,5,4,8,3,7]
+
+输出:
+ 49
+```
+
+解题思路1：暴力法
+
+从零开始计算，比较两个柱子的高度，然后取小值剩以之间的间距，然后与max比较。
+
+解题思路2：指针法
+
+记录低位low和高位high，low&lt;high 前提下，比较两个的值，并且去小值乘以之间距离，并有小于的一方是低位则向前寻找，如果小于自己的值则跳过，小于一方为高位则向后寻找，如果小于自己的值则跳过，最后与max比较，进行替换
+
+```java
+    //暴力法
+    public static int maxArea(int[] height) {
+        int max = 0;
+        int len = height.length;
+        int ret = 0;
+        for (int i = 0; i < len; i++) {
+            for (int j = i + 1; j < len; j++) {
+                // 向后依次计算，比较最大值
+                if (height[i] < height[j])
+                    ret = height[i] * (j - i);
+                else
+                    ret = height[j] * (j - i);
+                if (ret > max)
+                    max = ret;
+            }
+        }
+        return max;
+    }
+
+    //两端指针法
+    public static int maxArea2(int[] height) {
+        int max = 0, ret = 0, temp = 0;
+        // 一个指向低位，一个指向高位
+        int low = 0, high = height.length - 1;
+        while (low < high) {
+            //低位小于高位，按低位计算
+            if (height[low] < height[high]) {
+                ret = height[low] * (high - low);
+                temp = height[low];
+                //如果低位向前寻找小于等于自己的，跳过
+                while (height[++low] < temp && low < high) ;
+            } else {
+                //低位大于高位，取高位计算
+                ret = height[high] * (high - low);
+                temp = height[high];
+                //高位向后寻找小于等于自己的跳过
+                while (height[--high] < temp && low < high) ;
+            }
+            if (ret > max)
+                max = ret;
+        }
+        return max;
+    }
+```
+
 
 
