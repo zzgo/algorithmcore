@@ -7,6 +7,7 @@
     * [试题1](1/shi-ti-1.md)
     * [试题2](1/shi-ti-2.md)
     * [试题3](1/shi-ti-3.md)
+    * [试题4](1/shi-ti-4.md)
 * [Java常见算法](javachang-jian-suan-fa.md)
   * [快速排序](javachang-jian-suan-fa/kuai-su-pai-xu.md)
   * [插入排序](javachang-jian-suan-fa/cha-ru-pai-xu.md)
